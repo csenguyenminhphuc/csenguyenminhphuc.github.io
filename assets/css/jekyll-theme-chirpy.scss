@@ -179,6 +179,11 @@ h1.dynamic-title {
     }
 }
 
+
+nav a[href*="/tags"] {
+  display: none !important;
+}
+
 // /* Ẩn mục HOME trong sidebar */
 // #sidebar .nav-link.home,
 // #sidebar .nav-item:has(.fa-home) {

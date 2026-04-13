@@ -128,56 +128,8 @@ title: Home
 	</a>
 </div>
 
-<div>
+<div class="cyber-about-body">
 	<p data-i18n="home.aboutBody">
 		Final-year Computer Science student with hands-on experience in deploying and monitoring Linux systems and containerized environments. Proficient in using Docker, Docker Swarm, Kubernetes, Terraform, Ansible, Prometheus + Grafana, and ELK Stack to build, operate, and monitor microservices. Solid knowledge in cybersecurity with practical experience using Nmap, Burp Suite, OWASP ZAP, OSINT Framework, Trivy, Wireshark, and SonarQube. Strongly interested in roles related to DevOps, DevSecOps, System Administrator, NOC Engineer, Cybersecurity, Pentester, Cloud Cybersecurity.
 	</p>
 </div>
-
-<script>
-// Typing effect for name
-(function() {
-	var nameEl = document.getElementById('typed-name');
-	if (!nameEl) return;
-	var fullText = 'NGUYEN MINH PHUC';
-	var i = 0;
-	var typingDone = false;
-
-	function type() {
-		if (i <= fullText.length) {
-			nameEl.textContent = fullText.slice(0, i);
-			i++;
-			setTimeout(type, 90);
-		} else {
-			typingDone = true;
-		}
-	}
-
-	// Start typing after a short delay
-	setTimeout(type, 600);
-
-	// Re-type when language changes (listen for i18next)
-	if (typeof i18next !== 'undefined' && i18next.on) {
-		i18next.on('languageChanged', function() {
-			var newText = i18next.t('home.fullName') || fullText;
-			if (typingDone) {
-				nameEl.textContent = newText;
-			}
-		});
-	}
-
-	// Scroll fade-in for about body
-	var aboutBody = document.querySelector('.cyber-about-body');
-	if (aboutBody) {
-		var observer = new IntersectionObserver(function(entries) {
-			entries.forEach(function(entry) {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					observer.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.15 });
-		observer.observe(aboutBody);
-	}
-})();
-</script>

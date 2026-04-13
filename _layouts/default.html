@@ -1,0 +1,150 @@
+---
+layout: compress
+---
+
+<!doctype html>
+
+{% include origin-type.html %}
+
+{% include lang.html %}
+
+{% if site.theme_mode %}
+  {% capture prefer_mode %}data-mode="{{ site.theme_mode }}"{% endcapture %}
+{% endif %}
+
+<!-- `site.alt_lang` can specify a language different from the UI -->
+<html lang="{{ page.lang | default: site.alt_lang | default: site.lang }}" {{ prefer_mode }}>
+  {% include head.html lang=lang %}
+
+  <style>
+    html.lang-pending body {
+      visibility: hidden;
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('site_lang_toggle') === 'vi') {
+          document.documentElement.classList.add('lang-pending');
+          document.documentElement.setAttribute('lang', 'vi');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <body>
+    {% include sidebar.html lang=lang %}
+
+    <div id="main-wrapper" class="d-flex justify-content-start">
+      <div class="container d-flex flex-column px-xxl-5">
+        {% include topbar.html lang=lang %}
+
+        <div class="row flex-grow-1">
+          <main aria-label="Main Content" class="col-12 col-lg-8 col-xl-9 px-md-4">
+            {% if layout.layout == 'default' %}
+              {% include refactor-content.html content=content lang=lang %}
+            {% else %}
+              {{ content }}
+            {% endif %}
+          </main>
+
+          <!-- panel -->
+          <aside aria-label="Panel" id="panel-wrapper" class="col-12 col-lg-4 col-xl-3 ps-2 text-muted">
+            <div class="access">
+              {% include_cached update-list.html lang=lang %}
+              {% include_cached trending-tags.html lang=lang %}
+
+              {% if site.posts == empty %}
+                <section id="access-lastmod" class="mt-4">
+                  <h2 class="panel-heading">{{ site.data.locales[lang].panel.lastmod }}</h2>
+                  <div class="content">
+                    <ul class="list-unstyled ps-0 mb-0">
+                      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                      <li><a href="{{ '/services/' | relative_url }}">Services</a></li>
+                      <li><a href="{{ '/projects/' | relative_url }}">Projects</a></li>
+                      <li><a href="{{ '/employment/' | relative_url }}">Employment</a></li>
+                      <li><a href="{{ '/skills/' | relative_url }}">Skills</a></li>
+                      <li><a href="{{ '/certifications/' | relative_url }}">Certifications</a></li>
+                      <li><a href="{{ '/education/' | relative_url }}">Education</a></li>
+                      <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+                    </ul>
+                  </div>
+                </section>
+
+                <section class="mt-4">
+                  <h2 class="panel-heading">{{ site.data.locales[lang].panel.trending_tags }}</h2>
+                  <div class="d-flex flex-wrap mt-3">
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">devops</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">cloud</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">security</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">full-stack</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">devsecops</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">kubernetes</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">terraform</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">ci/cd</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">pentest</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">monitoring</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">linux</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">api-security</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">aws</a>
+                    <a href="{{ '/services/' | relative_url }}" class="post-tag">digitalocean</a>
+                  </div>
+                </section>
+
+                <section id="fallback-contents" class="mt-4">
+                  <h2 class="panel-heading">{{ site.data.locales[lang].panel.toc }}</h2>
+                  <div class="content">
+                    <ul id="fallback-contents-list" class="list-unstyled ps-0 mb-0"></ul>
+                  </div>
+                </section>
+              {% endif %}
+            </div>
+
+            {% for _include in layout.panel_includes %}
+              {% assign _include_path = _include | append: '.html' %}
+              {% include {{ _include_path }} lang=lang %}
+            {% endfor %}
+          </aside>
+        </div>
+
+        <div class="row">
+          <!-- tail -->
+          <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            {% for _include in layout.tail_includes %}
+              {% assign _include_path = _include | append: '.html' %}
+              {% include {{ _include_path }} lang=lang %}
+            {% endfor %}
+
+            {% include_cached footer.html lang=lang %}
+          </div>
+        </div>
+
+        {% include_cached search-results.html lang=lang %}
+      </div>
+
+      <aside aria-label="Scroll to Top">
+        <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow">
+          <i class="fas fa-angle-up"></i>
+        </button>
+      </aside>
+    </div>
+
+    <div id="mask" class="d-none position-fixed w-100 h-100 z-1"></div>
+
+    {% if site.pwa.enabled %}
+      {% include_cached notification.html lang=lang %}
+    {% endif %}
+
+    <!-- Embedded scripts -->
+
+    {% for _include in layout.script_includes %}
+      {% assign _include_path = _include | append: '.html' %}
+      {% include {{ _include_path }} %}
+    {% endfor %}
+
+    {% include_cached search-loader.html lang=lang %}
+    <script defer src="https://cdn.jsdelivr.net/npm/i18next@23.16.5/dist/umd/i18next.min.js"></script>
+    <script>window.__SITE_BASEURL__ = {{ site.baseurl | jsonify }};</script>
+    <script defer src="{{ '/assets/js/lang-toggle.js' | relative_url }}"></script>
+  </body>
+</html>

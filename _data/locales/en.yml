@@ -11,10 +11,15 @@ layout:
 tabs:
   # format: <filename_without_extension>: <value>
   home: Home
+  skills: Skills
+  services: Services
+  education: Education
+  certifications: Certifications
+  projects: Projects
   categories: Categories
-  tags: Tags
-  archives: Archives
-  about: About
+  employment: Employment
+  blog: Blog
+  contact: Contact
 
 # the text displayed in the search bar & search results
 search:
@@ -84,8 +89,8 @@ df:
 # categories page
 categories:
   category_measure:
-    singular: category
-    plural: categories
+    singular: chuyên mục
+    plural: chuyên mục
   post_measure:
-    singular: post
-    plural: posts
+    singular: bài viết
+    plural: bài viết

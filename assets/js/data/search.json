@@ -1,0 +1,89 @@
+---
+layout: compress
+---
+[
+{% assign posts = site.posts | where_exp: 'item', 'item.hidden != true' %}
+{% assign pages = site.pages | where: 'layout', 'page' %}
+{% assign pages = pages | where_exp: 'item', 'item.title and item.url != "/404.html"' %}
+{% assign tabs = site.tabs | where_exp: 'item', 'item.title' %}
+{% assign categories = site.categories | sort %}
+{% assign tags = site.tags | sort %}
+{% assign page_count = pages | size %}
+{% assign tab_count = tabs | size %}
+{% assign category_count = categories | size %}
+{% assign tag_count = tags | size %}
+
+{% for post in posts %}
+  {% assign title_text = post.title | default: '' %}
+  {% assign category_text = post.categories | join: ', ' %}
+  {% assign tag_text = post.tags | join: ', ' %}
+  {% assign content_raw = post.content | markdownify | strip_html | strip_newlines | replace: '  ', ' ' | strip %}
+  {% capture search_text %}{{ title_text }} {{ category_text }} {{ tag_text }} {{ content_raw | truncate: 4000 }}{% endcapture %}
+  {
+    "title": {{ title_text | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "categories": {{ category_text | jsonify }},
+    "tags": {{ tag_text | jsonify }},
+    "content": {{ content_raw | truncate: 260 | jsonify }},
+    "search": {{ search_text | strip | jsonify }}
+  }{% unless forloop.last and page_count == 0 and tab_count == 0 and category_count == 0 and tag_count == 0 %},{% endunless %}
+{% endfor %}
+
+{% for page in pages %}
+  {% assign page_title = page.title | default: '' %}
+  {% assign page_content_raw = page.content | markdownify | strip_html | strip_newlines | replace: '  ', ' ' | strip %}
+  {% capture page_search_text %}{{ page_title }} {{ page_content_raw | truncate: 4000 }}{% endcapture %}
+  {
+    "title": {{ page_title | jsonify }},
+    "url": {{ page.url | relative_url | jsonify }},
+    "categories": "",
+    "tags": "",
+    "content": {{ page_content_raw | truncate: 260 | jsonify }},
+    "search": {{ page_search_text | strip | jsonify }}
+  }{% unless forloop.last and tab_count == 0 and category_count == 0 and tag_count == 0 %},{% endunless %}
+{% endfor %}
+
+{% for tab in tabs %}
+  {% assign tab_title = tab.title | default: '' %}
+  {% assign tab_content_raw = tab.content | markdownify | strip_html | strip_newlines | replace: '  ', ' ' | strip %}
+  {% capture tab_search_text %}{{ tab_title }} {{ tab_content_raw | truncate: 4000 }}{% endcapture %}
+  {
+    "title": {{ tab_title | jsonify }},
+    "url": {{ tab.url | relative_url | jsonify }},
+    "categories": "Sidebar",
+    "tags": "Tab",
+    "content": {{ tab_content_raw | truncate: 260 | jsonify }},
+    "search": {{ tab_search_text | strip | jsonify }}
+  }{% unless forloop.last and category_count == 0 and tag_count == 0 %},{% endunless %}
+{% endfor %}
+
+{% for category in categories %}
+  {% assign category_name = category[0] %}
+  {% assign category_posts = category[1] | map: 'title' | join: ', ' %}
+  {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+  {% capture category_content %}Chuyen muc {{ category_name }}: {{ category_posts }}{% endcapture %}
+  {
+    "title": {{ category_name | jsonify }},
+    "url": {{ category_url | relative_url | jsonify }},
+    "categories": "Sidebar",
+    "tags": "Category",
+    "content": {{ category_content | truncate: 260 | jsonify }},
+    "search": {{ category_content | truncate: 4000 | jsonify }}
+  }{% unless forloop.last and tag_count == 0 %},{% endunless %}
+{% endfor %}
+
+{% for tag in tags %}
+  {% assign tag_name = tag[0] %}
+  {% assign tag_posts = tag[1] | map: 'title' | join: ', ' %}
+  {% capture tag_url %}/tags/{{ tag_name | slugify | url_encode }}/{% endcapture %}
+  {% capture tag_content %}Trending tag {{ tag_name }}: {{ tag_posts }}{% endcapture %}
+  {
+    "title": {{ tag_name | jsonify }},
+    "url": {{ tag_url | relative_url | jsonify }},
+    "categories": "Sidebar",
+    "tags": "Tag",
+    "content": {{ tag_content | truncate: 260 | jsonify }},
+    "search": {{ tag_content | truncate: 4000 | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

@@ -1,0 +1,30 @@
+---
+layout: default
+panel_includes:
+  - toc
+---
+
+{% include lang.html %}
+{% include toc-status.html %}
+{% assign enable_toc = true %}
+
+<article class="px-1" data-toc="{{ enable_toc }}">
+  {% if page.layout == 'page' or page.collection == 'tabs' %}
+    {% assign tab_key = page.title | downcase %}
+    {% assign title = site.data.locales[lang].tabs[tab_key] | default: page.title %}
+    {% unless tab_key == 'home' %}
+      {% if tab_key == 'introduction' or tab_key == 'contact' %}
+        <h1 class="dynamic-title" data-i18n="pageTitle.{{ tab_key }}" data-toc-skip>
+      {% else %}
+      <h1 class="dynamic-title" data-toc-skip>
+      {% endif %}
+        {{ title }}
+      </h1>
+    {% endunless %}
+    <div class="content">
+      {{ content }}
+    </div>
+  {% else %}
+    {{ content }}
+  {% endif %}
+</article>

@@ -1,0 +1,247 @@
+<!--
+  Custom search loader
+  - Debounced input for better responsiveness.
+  - Weighted ranking prioritizing title/tags/categories over body content.
+  - Diacritic-insensitive matching for Vietnamese and multilingual queries.
+-->
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+
+    if (!searchInput || !resultsContainer) {
+      return;
+    }
+
+    const indexUrl = "{{ '/assets/js/data/search.json' | relative_url }}";
+    const maxResults = 12;
+    const minKeywordLength = 1;
+
+    let docs = [];
+    let loadingPromise = null;
+
+    const normalizeText = (text) => {
+      return String(text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
+
+    const tokenize = (query) => {
+      return normalizeText(query)
+        .split(' ')
+        .filter((token) => token.length >= minKeywordLength);
+    };
+
+    const escapeHtml = (text) => {
+      return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    };
+
+    const escapeRegex = (text) => {
+      return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    };
+
+    const highlight = (text, tokens) => {
+      let highlighted = escapeHtml(text);
+
+      for (const token of tokens) {
+        if (!token) {
+          continue;
+        }
+
+        const regex = new RegExp(`(${escapeRegex(token)})`, 'ig');
+        highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+      }
+
+      return highlighted;
+    };
+
+    const buildMeta = (iconClass, value) => {
+      if (!value) {
+        return '';
+      }
+
+      return `<div class="me-sm-4"><i class="${iconClass} fa-fw"></i>${escapeHtml(value)}</div>`;
+    };
+
+    const scoreDocument = (doc, tokens, normalizedQuery) => {
+      if (!tokens.length) {
+        return 0;
+      }
+
+      let score = 0;
+      let matchedTokens = 0;
+
+      for (const token of tokens) {
+        let tokenMatched = false;
+
+        if (doc.titleNorm.includes(token)) {
+          score += 12;
+          tokenMatched = true;
+
+          if (doc.titleNorm.startsWith(token)) {
+            score += 3;
+          }
+        }
+
+        if (doc.tagsNorm.includes(token)) {
+          score += 8;
+          tokenMatched = true;
+        }
+
+        if (doc.categoriesNorm.includes(token)) {
+          score += 5;
+          tokenMatched = true;
+        }
+
+        if (doc.searchNorm.includes(token)) {
+          score += 2;
+          tokenMatched = true;
+        }
+
+        if (tokenMatched) {
+          matchedTokens += 1;
+        }
+      }
+
+      if (normalizedQuery && doc.titleNorm.includes(normalizedQuery)) {
+        score += 14;
+      }
+
+      if (matchedTokens === tokens.length) {
+        score += 10;
+      }
+
+      return score;
+    };
+
+    const renderResults = (items, tokens) => {
+      if (!items.length) {
+        resultsContainer.innerHTML = '<p class="mt-5">Oops! No results found.</p>';
+        return;
+      }
+
+      resultsContainer.innerHTML = items
+        .map((item) => {
+          return [
+            '<article class="px-1 px-sm-2 px-lg-4 px-xl-0">',
+            '  <header>',
+            `    <h2><a href="${escapeHtml(item.url)}">${highlight(item.title, tokens)}</a></h2>`,
+            '    <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">',
+            `      ${buildMeta('far fa-folder', item.categories)}`,
+            `      ${buildMeta('fa fa-tag', item.tags)}`,
+            '    </div>',
+            '  </header>',
+            `  <p>${highlight(item.content, tokens)}</p>`,
+            '</article>'
+          ].join('');
+        })
+        .join('');
+    };
+
+    const prepareDocs = (rawDocs) => {
+      return rawDocs.map((item) => {
+        const title = String(item.title || '');
+        const categories = String(item.categories || '');
+        const tags = String(item.tags || '');
+        const content = String(item.content || '');
+        const search = String(item.search || `${title} ${categories} ${tags} ${content}`);
+
+        return {
+          title,
+          url: item.url,
+          categories,
+          tags,
+          content,
+          search,
+          titleNorm: normalizeText(title),
+          categoriesNorm: normalizeText(categories),
+          tagsNorm: normalizeText(tags),
+          searchNorm: normalizeText(search)
+        };
+      });
+    };
+
+    const loadDocs = () => {
+      if (loadingPromise) {
+        return loadingPromise;
+      }
+
+      loadingPromise = fetch(indexUrl, { cache: 'force-cache' })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Search index request failed with status ${response.status}`);
+          }
+
+          return response.json();
+        })
+        .then((data) => {
+          docs = prepareDocs(Array.isArray(data) ? data : []);
+          return docs;
+        })
+        .catch((error) => {
+          console.error('Unable to load search index:', error);
+          docs = [];
+          return docs;
+        });
+
+      return loadingPromise;
+    };
+
+    const runSearch = (rawQuery) => {
+      const normalizedQuery = normalizeText(rawQuery);
+      const tokens = tokenize(rawQuery);
+
+      if (!normalizedQuery || !tokens.length) {
+        resultsContainer.innerHTML = '';
+        return;
+      }
+
+      const ranked = docs
+        .map((doc) => {
+          return {
+            doc,
+            score: scoreDocument(doc, tokens, normalizedQuery)
+          };
+        })
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, maxResults)
+        .map((item) => item.doc);
+
+      renderResults(ranked, tokens);
+    };
+
+    const debounce = (fn, delay) => {
+      let timer = null;
+
+      return (...args) => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = window.setTimeout(() => fn(...args), delay);
+      };
+    };
+
+    const handleInput = debounce(async () => {
+      await loadDocs();
+      runSearch(searchInput.value);
+    }, 120);
+
+    searchInput.addEventListener('focus', () => {
+      loadDocs();
+    });
+
+    searchInput.addEventListener('input', handleInput);
+  });
+</script>

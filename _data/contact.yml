@@ -10,9 +10,25 @@
   icon: "fas fa-envelope"
   noblank: true # open link in current tab
 
-- type: rss
-  icon: "fas fa-rss"
-  noblank: true
+- type: linkedin
+  icon: "fab fa-linkedin"
+  url: "https://www.linkedin.com/in/csenguyenminhphuc"
+
+- type: youtube
+  icon: "fab fa-youtube"
+  url: "https://www.youtube.com/@csenguyenminhphuc"
+
+# - type: tryhackme
+#   icon: "fas fa-shield-halved"
+#   url: "https://tryhackme.com/p/csenguyenminhphuc"
+
+- type: credly
+  icon: "fas fa-certificate"
+  url: "https://www.credly.com/users/csenguyenminhphuc"
+
+# - type: rss
+#   icon: "fas fa-rss"
+#   noblank: true
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon

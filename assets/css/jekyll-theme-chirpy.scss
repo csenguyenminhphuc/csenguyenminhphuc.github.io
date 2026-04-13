@@ -1,5 +1,873 @@
+---
+---
+
+@use "main";   
+
+#sidebar .site-title {
+    font-size: 1.57rem !important;     /* thử giá trị này trước */
+    text-align: center !important;
+}
 
 
-.site-title {
-  font-size: 0.5rem !important;   /* thử từ 1.25rem ~ 1.4rem */
+/* Nếu vẫn chưa đủ, thử nhỏ hơn */
+#sidebar .site-subtitle {
+    font-size: 1rem !important;
+    text-align: center !important;
+}
+
+.resume-timeline {
+    --timeline-axis-x: 0.72rem;
+    --timeline-line-w: 3px;
+    --timeline-dot-size: 0.72rem;
+    position: relative;
+    margin-left: 0.25rem;
+    padding-left: 1.8rem;
+}
+
+.resume-timeline::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--timeline-axis-x) - (var(--timeline-line-w) / 2));
+    top: 0.1rem;
+    bottom: 0.1rem;
+    width: var(--timeline-line-w);
+    border-radius: 999px;
+    background: #d8dbe2;
+}
+
+.resume-timeline-item {
+    position: relative;
+    margin-bottom: 1.2rem;
+}
+
+.resume-timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.resume-timeline-item::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--timeline-axis-x) - var(--timeline-dot-size) / 2 - 1.8rem);
+    top: 0.3rem;
+    width: var(--timeline-dot-size);
+    height: var(--timeline-dot-size);
+    border-radius: 50%;
+    background: #b7bcc6;
+    border: 2px solid #f5f5f5;
+}
+
+.resume-timeline-date {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+#panel-wrapper {
+    display: block !important;
+}
+
+@media all and (min-width: 1650px) {
+    #main-wrapper > .container {
+        max-width: 1500px !important;
+    }
+}
+
+/* Căn giữa avatar trong sidebar */
+#sidebar #avatar {
+    display: flex !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    width: 50% !important;
+    border: 1px solid #000 !important; /* viền */
+    
+}
+
+h1.dynamic-title {
+  display: none;
+}
+
+#lang-picker-topbar {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 0.45rem;
+}
+
+@media all and (min-width: 750px) {
+    #lang-picker-topbar {
+        margin-left: auto;
+    }
+}
+
+#lang-toggle-topbar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid var(--search-border-color);
+    background-color: var(--main-bg);
+    color: var(--search-icon-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#lang-toggle-topbar:hover {
+    color: var(--topbar-text-color);
+    border-color: var(--input-focus-border-color);
+}
+
+#lang-toggle-topbar:focus-visible {
+    box-shadow: none;
+    outline: none;
+    border-color: var(--input-focus-border-color);
+}
+
+#lang-menu-topbar {
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    display: none;
+    min-width: 4.25rem;
+    border: 1px solid var(--search-border-color);
+    border-radius: 0.65rem;
+    background: var(--main-bg);
+    box-shadow: var(--card-shadow);
+    padding: 0.25rem;
+    z-index: 20;
+}
+
+#lang-picker-topbar.open #lang-menu-topbar {
+    display: block;
+}
+
+#lang-menu-topbar .lang-option {
+    width: 100%;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    color: var(--topbar-text-color);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 0.3rem 0.5rem;
+}
+
+#lang-menu-topbar .lang-option:hover {
+    background: var(--sidebar-hover-bg);
+}
+
+#lang-menu-topbar .lang-option.active {
+    background: var(--sidebar-hover-bg);
+    color: var(--sidebar-active-color);
+}
+
+#topbar-wrapper,
+#topbar {
+    overflow: visible;
+}
+
+@media all and (max-width: 749px) {
+    #lang-picker-topbar {
+        margin-left: 0.25rem;
+        margin-right: 0;
+    }
+
+    #lang-menu-topbar {
+        left: auto;
+        right: 0;
+        min-width: 3.75rem;
+        z-index: 1000;
+    }
+}
+
+// /* Ẩn mục HOME trong sidebar */
+// #sidebar .nav-link.home,
+// #sidebar .nav-item:has(.fa-home) {
+//     display: none !important;
+// }
+
+/* ====================================================
+   CYBERPUNK / HACKER EFFECTS - Homepage Only
+   ==================================================== */
+
+/* --- Neon Color Variables --- */
+:root {
+    --neon-cyan: #00ffc8;
+    --neon-purple: #7b2ff7;
+    --neon-pink: #ff2d95;
+    --neon-blue: #00b4ff;
+    --neon-glow-sm: 0 0 5px var(--neon-cyan), 0 0 10px rgba(0, 255, 200, 0.3);
+    --neon-glow-md: 0 0 10px var(--neon-cyan), 0 0 20px rgba(0, 255, 200, 0.4), 0 0 40px rgba(123, 47, 247, 0.2);
+    --neon-glow-lg: 0 0 15px var(--neon-cyan), 0 0 30px rgba(0, 255, 200, 0.5), 0 0 60px rgba(123, 47, 247, 0.3);
+}
+
+/* --- Particles Background --- */
+.cyber-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* ── Base particle ── */
+.particle {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    opacity: 0;
+    animation: particleFloat linear infinite;
+}
+
+/* ── Classic cyan dots (1-10) ── */
+.particle:nth-child(1)  { left:  3%; animation-duration: 18s; animation-delay: 0s;   }
+.particle:nth-child(2)  { left: 12%; animation-duration: 20s; animation-delay: 0s;   width: 4px; height: 4px; }
+.particle:nth-child(3)  { left: 22%; animation-duration: 16s; animation-delay: 0s;   }
+.particle:nth-child(4)  { left: 32%; animation-duration: 20s; animation-delay: 0s;   width: 2px; height: 2px; }
+.particle:nth-child(5)  { left: 42%; animation-duration: 20s; animation-delay: 0s;   }
+.particle:nth-child(6)  { left: 52%; animation-duration: 17s; animation-delay: 0s;   width: 5px; height: 5px; }
+.particle:nth-child(7)  { left: 62%; animation-duration: 21s; animation-delay: 0s; }
+.particle:nth-child(8)  { left: 72%; animation-duration: 19s; animation-delay: 0s; width: 2px; height: 2px; }
+.particle:nth-child(9)  { left: 82%; animation-duration: 20s; animation-delay: 0s; }
+.particle:nth-child(10) { left: 92%; animation-duration: 15s; animation-delay: 0s; width: 4px; height: 4px; }
+
+/* ── Purple dots (11-14) ── */
+.particle.p-purple { background: var(--neon-purple); }
+.particle:nth-child(11) { left:  8%; animation-duration: 20s; animation-delay: 0s;   width: 3px; height: 3px; }
+.particle:nth-child(12) { left: 38%; animation-duration: 20s; animation-delay: 0s; width: 4px; height: 4px; }
+.particle:nth-child(13) { left: 68%; animation-duration: 18s; animation-delay: 0s;   width: 2px; height: 2px; }
+.particle:nth-child(14) { left: 88%; animation-duration: 22s; animation-delay: 0s;   width: 3px; height: 3px; }
+
+/* ── Pink dots (15-17) ── */
+.particle.p-pink { 
+    width: 20px;
+    height: 20px;
+    background: var(--neon-pink);
+}
+.particle:nth-child(15) { left: 18%; animation-duration: 19s; animation-delay: 0s;   width: 3px; height: 3px; }
+.particle:nth-child(16) { left: 55%; animation-duration: 20s; animation-delay: 0s;   width: 2px; height: 2px; }
+.particle:nth-child(17) { left: 78%; animation-duration: 16s; animation-delay: 0s; width: 4px; height: 4px; }
+
+/* ── Blue dots (18-20) ── */
+.particle.p-blue { background: var(--neon-blue); }
+.particle:nth-child(18) { left: 28%; animation-duration: 21s; animation-delay: 0s; width: 5px; height: 5px; }
+.particle:nth-child(19) { left: 48%; animation-duration: 17s; animation-delay: 0s;   width: 5px; height: 5px; }
+.particle:nth-child(20) { left: 95%; animation-duration: 20s; animation-delay: 0s; width: 5px; height: 5px; }
+
+/* ── Diamonds (21-24) ── */
+.particle.p-diamond {
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    transform-origin: center;
+    background: var(--neon-cyan);
+    animation-name: particleDiamond;
+}
+.particle:nth-child(21) { left:  6%; animation-duration: 20s; animation-delay: 0s; }
+.particle:nth-child(22) { left: 35%; animation-duration: 24s; animation-delay: 0s;   background: var(--neon-purple); }
+.particle:nth-child(23) { left: 58%; animation-duration: 18s; animation-delay: 0s; }
+.particle:nth-child(24) { left: 85%; animation-duration: 22s; animation-delay: 0s;   background: var(--neon-pink); width: 5px; height: 5px; }
+
+/* ── Rings / hollow circles (25-27) ── */
+.particle.p-ring {
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    border: 1.5px solid var(--neon-cyan);
+    animation-name: particleRing;
+}
+.particle:nth-child(25) { left: 15%; animation-duration: 20s; animation-delay: 0s;   }
+.particle:nth-child(26) { left: 50%; animation-duration: 20s; animation-delay: 0s;   border-color: var(--neon-purple); width: 10px; height: 10px; }
+.particle:nth-child(27) { left: 80%; animation-duration: 20s; animation-delay: 0s; border-color: var(--neon-pink); width: 7px; height: 7px; }
+
+/* ── Dashes / horizontal lines (28-31) ── */
+.particle.p-dash {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--neon-cyan);
+    animation-name: particleDash;
+}
+.particle:nth-child(28) { left: 10%; animation-duration: 17s; animation-delay: 0s;   }
+.particle:nth-child(29) { left: 40%; animation-duration: 21s; animation-delay: 0s;   background: var(--neon-purple); width: 16px; }
+.particle:nth-child(30) { left: 65%; animation-duration: 19s; animation-delay: 0s;   background: var(--neon-blue); width: 10px; }
+.particle:nth-child(31) { left: 90%; animation-duration: 23s; animation-delay: 0s;   width: 14px; }
+
+/* ── Stars / cross shape (32-34) ── */
+.particle.p-star {
+    width: 20px;
+    height: 20;
+    background: none;
+    border-radius: 0;
+    animation-name: particleStar;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        background: var(--neon-cyan);
+        border-radius: 999px;
+    }
+    &::before { width: 8px; height: 2px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    &::after  { width: 2px; height: 8px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+}
+.particle:nth-child(32) { left: 20%; animation-duration: 20s; animation-delay: 0s; &::before, &::after { background: var(--neon-purple); } }
+.particle:nth-child(33) { left: 45%; animation-duration: 16s; animation-delay: 0s; }
+.particle:nth-child(34) { left: 75%; animation-duration: 34s; animation-delay: 0s;   &::before, &::after { background: var(--neon-pink); } }
+
+/* ── Flicker / rapid blink (35-38) ── */
+.particle.p-flicker {
+    width: 13px;
+    height: 13px;
+    animation-name: particleFlicker;
+}
+.particle:nth-child(35) { left:  5%; animation-duration: 44s; animation-delay: 0s;   background: var(--neon-cyan); }
+.particle:nth-child(36) { left: 30%; animation-duration: 48s; animation-delay: 0s; background: var(--neon-purple); width: 4px; height: 4px; }
+.particle:nth-child(37) { left: 60%; animation-duration: 42s; animation-delay: 0s;   background: var(--neon-pink); width: 2px; height: 2px; }
+.particle:nth-child(38) { left: 85%; animation-duration: 46s; animation-delay: 0s; background: var(--neon-blue); }
+
+/* ── Blobs / ambient glow (39-41) ── */
+.particle.p-blob {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 255, 200, 0.15), transparent 70%);
+    filter: blur(6px);
+    animation-name: particleBlob;
+}
+.particle:nth-child(39) { left: 10%; animation-duration: 48s; animation-delay: 0s;   }
+.particle:nth-child(40) { left: 50%; animation-duration: 32s; animation-delay: 0s;   width: 40px; height: 40px; background: radial-gradient(circle, rgba(123, 47, 247, 0.12), transparent 70%); }
+.particle:nth-child(41) { left: 80%; animation-duration: 46s; animation-delay: 0s;   width: 35px; height: 35px; background: radial-gradient(circle, rgba(255, 45, 149, 0.10), transparent 70%); }
+
+/* ── Zigzag / sideways drift (42-44) ── */
+.particle.p-zigzag {
+    width: 30px;
+    height: 30px;
+    animation-name: particleZigzag;
+}
+.particle:nth-child(42) { left: 25%; animation-duration: 40s; animation-delay: 0s;   background: var(--neon-cyan); }
+.particle:nth-child(43) { left: 55%; animation-duration: 48s; animation-delay: 0s;   background: var(--neon-purple); width: 4px; height: 4px; }
+.particle:nth-child(44) { left: 75%; animation-duration: 42s; animation-delay: 0s; background: var(--neon-blue); width: 2px; height: 2px; }
+
+.particle.p-star {
+    width: 30px;
+    height: 30px;
+    animation-name: particleStar;
+}
+.particle:nth-child(45) { left: 25%; animation-duration: 30s; animation-delay: 0s;   background: var(--neon-cyan); }
+.particle:nth-child(46) { left: 55%; animation-duration: 38s; animation-delay: 0s;   background: var(--neon-purple); width: 4px; height: 4px; }
+.particle:nth-child(47) { left: 75%; animation-duration: 32s; animation-delay: 0s; background: var(--neon-blue); width: 2px; height: 2px; }
+
+
+
+/* ======== KEYFRAMES ======== */
+
+/* Default: float straight up */
+@keyframes particleFloat {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* Diamond: float up + rotate 45° → 180° */
+@keyframes particleDiamond {
+    0%   { transform: translateY(100vh) rotate(45deg) scale(0); opacity: 0; }
+    10%  { opacity: 0.55; }
+    50%  { transform: translateY(45vh) rotate(135deg) scale(1); }
+    90%  { opacity: 0.55; }
+    100% { transform: translateY(-10vh) rotate(225deg) scale(0.8); opacity: 0; }
+}
+
+/* Ring: float up + scale pulse */
+@keyframes particleRing {
+    0%   { transform: translateY(100vh) scale(0.3); opacity: 0; }
+    10%  { opacity: 0.45; }
+    25%  { transform: translateY(72vh) scale(1.2); }
+    50%  { transform: translateY(45vh) scale(0.8); }
+    75%  { transform: translateY(18vh) scale(1.1); }
+    90%  { opacity: 0.45; }
+    100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+}
+
+/* Dash: float up + slight rotate */
+@keyframes particleDash {
+    0%   { transform: translateY(100vh) rotate(0deg) scaleX(0.3); opacity: 0; }
+    10%  { opacity: 0.5; }
+    33%  { transform: translateY(66vh) rotate(15deg) scaleX(1); }
+    66%  { transform: translateY(33vh) rotate(-10deg) scaleX(0.7); }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-10vh) rotate(5deg) scaleX(1); opacity: 0; }
+}
+
+/* Star: float up + spin */
+@keyframes particleStar {
+    0%   { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+    10%  { opacity: 0.5; }
+    50%  { transform: translateY(45vh) rotate(180deg) scale(1); }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-10vh) rotate(360deg) scale(0.6); opacity: 0; }
+}
+
+/* Flicker: float up + rapid blink */
+@keyframes particleFlicker {
+    0%    { transform: translateY(100vh); opacity: 0; }
+    5%    { opacity: 0.8; }
+    10%   { opacity: 0.1; }
+    15%   { opacity: 0.7; }
+    20%   { opacity: 0.05; }
+    25%   { opacity: 0.9; }
+    30%   { opacity: 0.2; }
+    35%   { opacity: 0.8; }
+    40%   { opacity: 0.1; }
+    50%   { opacity: 0.7; transform: translateY(50vh); }
+    55%   { opacity: 0.05; }
+    60%   { opacity: 0.9; }
+    65%   { opacity: 0.15; }
+    70%   { opacity: 0.7; }
+    75%   { opacity: 0.1; }
+    80%   { opacity: 0.8; }
+    85%   { opacity: 0.05; }
+    90%   { opacity: 0.6; }
+    95%   { opacity: 0.1; }
+    100%  { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Blob: slow drift upward with gentle pulse */
+@keyframes particleBlob {
+    0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    10%  { opacity: 0.3; }
+    30%  { transform: translateY(65vh) scale(1.2); opacity: 0.4; }
+    50%  { transform: translateY(45vh) scale(0.9); opacity: 0.25; }
+    70%  { transform: translateY(25vh) scale(1.1); opacity: 0.35; }
+    90%  { opacity: 0.25; }
+    100% { transform: translateY(-10vh) scale(0.7); opacity: 0; }
+}
+
+/* Zigzag: float up + sideways sway */
+@keyframes particleZigzag {
+    0%   { transform: translate(0, 100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.6; transform: translate(20px, 90vh) scale(1); }
+    20%  { transform: translate(-15px, 80vh); }
+    30%  { transform: translate(25px, 65vh); opacity: 0.5; }
+    40%  { transform: translate(-20px, 55vh); }
+    50%  { transform: translate(18px, 45vh); opacity: 0.6; }
+    60%  { transform: translate(-22px, 35vh); }
+    70%  { transform: translate(15px, 22vh); opacity: 0.5; }
+    80%  { transform: translate(-18px, 12vh); }
+    90%  { opacity: 0.4; }
+    100% { transform: translate(10px, -10vh) scale(0.5); opacity: 0; }
+}
+
+/* --- Cyber Hero Section --- */
+.cyber-hero {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Avatar Neon Glow --- */
+.cyber-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-cyan));
+    background-size: 400% 400%;
+    animation: avatarGradientSpin 4s ease infinite;
+    box-shadow: var(--neon-glow-md);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        box-shadow: var(--neon-glow-lg);
+        transform: scale(1.03);
+    }
+}
+
+.cyber-avatar {
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 3px solid rgba(0, 0, 0, 0.8);
+}
+
+@keyframes avatarGradientSpin {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Avatar pulse glow */
+.cyber-avatar-wrapper::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    z-index: -1;
+    opacity: 0.4;
+    animation: avatarPulse 2.5s ease-in-out infinite;
+    filter: blur(12px);
+}
+
+@keyframes avatarPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 0.6; transform: scale(1.05); }
+}
+
+/* --- Name: Typing + Glitch --- */
+.cyber-name {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    position: relative;
+    display: inline-block;
+
+    &:hover {
+        animation: glitch 0.3s ease forwards;
+    }
+}
+
+.cyber-cursor {
+    display: inline-block;
+    -webkit-text-fill-color: var(--neon-cyan);
+    font-weight: 400;
+    animation: cursorBlink 0.8s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
+@keyframes glitch {
+    0%  { transform: translate(0); }
+    20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+    40% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+    60% { transform: translate(-1px, -1px); filter: hue-rotate(45deg); }
+    80% { transform: translate(1px, 1px); filter: hue-rotate(-45deg); }
+    100%{ transform: translate(0); filter: hue-rotate(0); }
+}
+
+/* --- Roles: Neon Badges --- */
+.cyber-roles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    padding: 0 1rem;
+}
+
+.cyber-badge {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 200, 0.05);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: badgeFadeIn 0.5s ease forwards;
+    animation-delay: calc(0.8s + var(--badge-delay) * 0.12s);
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: rgba(0, 255, 200, 0.12);
+        box-shadow: var(--neon-glow-sm);
+        transform: translateY(-2px) scale(1.05);
+        color: #fff;
+        border-color: var(--neon-cyan);
+    }
+
+    /* shimmer sweep on hover */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 255, 200, 0.15), transparent);
+        transition: left 0.5s ease;
+    }
+
+    &:hover::before {
+        left: 100%;
+    }
+}
+
+@keyframes badgeFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Location --- */
+.cyber-location {
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    color: #8892b0;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 1.8s;
+}
+
+/* --- Section Title: Gradient --- */
+.cyber-section-title {
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+
+    &::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+        border-radius: 999px;
+        margin-top: 4px;
+        animation: lineExpand 0.8s ease forwards;
+        animation-delay: 2s;
+        transform-origin: left;
+        transform: scaleX(0);
+    }
+}
+
+@keyframes lineExpand {
+    to { transform: scaleX(1); }
+}
+
+/* --- Social Links: Neon Buttons --- */
+.cyber-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.cyber-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    color: var(--neon-cyan) !important;
+    background: rgba(0, 255, 200, 0.03);
+    opacity: 0;
+    transform: translateY(8px);
+    animation: socialFadeIn 0.4s ease forwards;
+    animation-delay: calc(2s + var(--link-delay) * 0.1s);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+
+    i {
+        font-size: 0.9rem;
+    }
+
+    span {
+        font-size: 0.78rem;
+    }
+
+    &:hover {
+        border-color: var(--neon-cyan);
+        background: rgba(0, 255, 200, 0.1);
+        box-shadow: var(--neon-glow-sm);
+        transform: translateY(-3px);
+        color: #fff !important;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+@keyframes socialFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- About Body: Fade In --- */
+.cyber-about-body {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    position: relative;
+    z-index: 1;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    p {
+        line-height: 1.75;
+        color: var(--text-color, #c9d1d9);
+        font-size: 0.95rem;
+    }
+}
+
+/* Subtle scan line on about text */
+.cyber-about-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 200, 0.015) 2px,
+        rgba(0, 255, 200, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 8px;
+}
+
+/* --- General Animation Helper --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 576px) {
+    .cyber-avatar {
+        width: 180px;
+        height: 180px;
+    }
+
+    .cyber-name {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+
+    .cyber-badge {
+        font-size: 0.72rem;
+        padding: 0.25rem 0.65rem;
+    }
+
+    .cyber-social-btn {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.75rem;
+    }
+
+    .cyber-social-btn span {
+        display: none; /* show icon only on small screens */
+    }
+}
+
+/* --- Dark mode refinements (Chirpy dark) --- */
+html[data-mode="dark"] {
+    .cyber-avatar {
+        border-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .cyber-about-body p {
+        color: #c9d1d9;
+    }
+}
+
+/* --- Light mode refinements --- */
+html[data-mode="light"],
+html:not([data-mode]) {
+    .cyber-badge {
+        color: #0a7c65;
+        border-color: #0a7c65;
+        background: rgba(0, 200, 160, 0.06);
+
+        &:hover {
+            color: #065;
+            background: rgba(0, 200, 160, 0.15);
+            box-shadow: 0 0 8px rgba(0, 200, 160, 0.3);
+        }
+    }
+
+    .cyber-social-btn {
+        color: #0a7c65 !important;
+        border-color: rgba(0, 200, 160, 0.3);
+
+        &:hover {
+            color: #065 !important;
+            border-color: #0a7c65;
+            box-shadow: 0 0 8px rgba(0, 200, 160, 0.3);
+        }
+    }
+
+    .cyber-name {
+        background: linear-gradient(90deg, #0a7c65, #4a00e0, #7b2ff7);
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
+
+    .particle {
+        background: #0a7c65;
+        opacity: 0.3;
+    }
+
+    .particle.p-purple { background: #6a1fb8; }
+    .particle.p-pink   { background: #c4206e; }
+    .particle.p-blue   { background: #0090cc; }
+    .particle.p-ring   { background: transparent; border-color: #0a7c65; }
+    .particle.p-dash   { background: #0a7c65; }
+    .particle.p-blob   { filter: blur(8px); opacity: 0.2; }
+    .particle.p-star::before,
+    .particle.p-star::after { background: #0a7c65; }
+
+    .cyber-avatar-wrapper {
+        box-shadow: 0 0 10px rgba(10, 124, 101, 0.3), 0 0 20px rgba(74, 0, 224, 0.2);
+    }
+
+    .cyber-location {
+        color: #6b7280;
+    }
+
+    .cyber-about-body p {
+        color: var(--text-color, #333);
+    }
+
+    .cyber-about-body::before {
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(10, 124, 101, 0.02) 2px,
+            rgba(10, 124, 101, 0.02) 4px
+        );
+    }
 }

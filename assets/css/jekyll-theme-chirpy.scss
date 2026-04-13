@@ -1,7 +1,14 @@
+---
+---
 
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
 
-@use "main";   
-
+/* append your custom style below */
 #sidebar .site-title {
     font-size: 1.57rem !important;     /* thử giá trị này trước */
     text-align: center !important;
@@ -179,7 +186,7 @@ h1.dynamic-title {
 }
 
 
-nav a[href*="/tags"] {
+#sidebar a[href="/tags/"] {
   display: none !important;
 }
 

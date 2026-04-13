@@ -23,7 +23,7 @@
 #   url: "https://tryhackme.com/p/csenguyenminhphuc"
 
 - type: credly
-  icon: "fas fa-certificate"
+  icon: "fa-solid fa-award"
   url: "https://www.credly.com/users/csenguyenminhphuc"
 
 # - type: rss

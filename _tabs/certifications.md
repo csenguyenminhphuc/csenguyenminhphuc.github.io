@@ -2,7 +2,7 @@
 layout: page
 title: Certifications
 hide_title: true
-icon: fas fa-certificate
+icon: fa-solid fa-award
 order: 5
 
 ---

@@ -88,21 +88,11 @@ h1.dynamic-title {
   display: none;
 }
 
-#lang-picker-topbar {
-    position: relative;
-    flex-shrink: 0;
-    margin-right: 0.45rem;
-}
-
-@media all and (min-width: 750px) {
-    #lang-picker-topbar {
-        margin-left: auto;
-    }
-}
-
 #lang-toggle-topbar {
     width: 2rem;
     height: 2rem;
+    flex-shrink: 0;
+    margin-right: 0.45rem;
     border-radius: 999px;
     border: 1px solid var(--search-border-color);
     background-color: var(--main-bg);
@@ -111,6 +101,7 @@ h1.dynamic-title {
     align-items: center;
     justify-content: center;
     padding: 0;
+    border: 1px solid rgb(175, 175, 175);
 }
 
 #lang-toggle-topbar:hover {
@@ -124,61 +115,21 @@ h1.dynamic-title {
     border-color: var(--input-focus-border-color);
 }
 
-#lang-menu-topbar {
-    position: absolute;
-    top: calc(100% + 0.35rem);
-    left: 0;
-    display: none;
-    min-width: 4.25rem;
-    border: 1px solid var(--search-border-color);
-    border-radius: 0.65rem;
-    background: var(--main-bg);
-    box-shadow: var(--card-shadow);
-    padding: 0.25rem;
-    z-index: 20;
-}
-
-#lang-picker-topbar.open #lang-menu-topbar {
-    display: block;
-}
-
-#lang-menu-topbar .lang-option {
-    width: 100%;
-    border: 0;
-    border-radius: 0.45rem;
-    background: transparent;
-    color: var(--topbar-text-color);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-align: center;
-    padding: 0.3rem 0.5rem;
-}
-
-#lang-menu-topbar .lang-option:hover {
-    background: var(--sidebar-hover-bg);
-}
-
-#lang-menu-topbar .lang-option.active {
-    background: var(--sidebar-hover-bg);
-    color: var(--sidebar-active-color);
-}
-
 #topbar-wrapper,
 #topbar {
     overflow: visible;
 }
 
+@media all and (min-width: 750px) {
+    #lang-toggle-topbar {
+        margin-left: auto;
+    }
+}
+
 @media all and (max-width: 749px) {
-    #lang-picker-topbar {
+    #lang-toggle-topbar {
         margin-left: 0.25rem;
         margin-right: 0;
-    }
-
-    #lang-menu-topbar {
-        left: auto;
-        right: 0;
-        min-width: 3.75rem;
-        z-index: 1000;
     }
 }
 

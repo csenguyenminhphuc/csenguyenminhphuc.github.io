@@ -101,12 +101,20 @@ h1.dynamic-title {
     align-items: center;
     justify-content: center;
     padding: 0;
+    text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent;
     border: 1px solid rgb(175, 175, 175);
 }
 
 #lang-toggle-topbar:hover {
     color: var(--topbar-text-color);
     border-color: var(--input-focus-border-color);
+    text-decoration: none !important;
+}
+
+#lang-toggle-topbar:focus,
+#lang-toggle-topbar:active {
+    text-decoration: none !important;
 }
 
 #lang-toggle-topbar:focus-visible {
@@ -128,8 +136,8 @@ h1.dynamic-title {
 
 @media all and (max-width: 749px) {
     #lang-toggle-topbar {
-        margin-left: 0.25rem;
-        margin-right: 0;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
     }
 }
 

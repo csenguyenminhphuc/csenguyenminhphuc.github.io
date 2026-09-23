@@ -9,7 +9,7 @@ order: 9
 
 <div class="resume-timeline">
 	<div class="resume-timeline-item">
-		<p><strong data-i18n="home.job1Title">DevOps & Pentester Engineer Intern | NCC.PLUS</strong></p>
+		<p><strong data-i18n="home.job1Title">DevOps & Pentester Engineer | NCC.PLUS</strong></p>
 		<p class="resume-timeline-date" data-i18n="home.job1Date">August 2025 - Present</p>
 		<ul>
 			<li><span data-i18n="home.job1Item1">Received training in core Data Engineering, DevOps, and Penetration Testing concepts, including data lifecycle, CI/CD pipelines, infrastructure automation, and security assessment methodologies.</span></li>

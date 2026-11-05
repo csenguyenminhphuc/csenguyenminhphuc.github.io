@@ -175,7 +175,7 @@ h1.dynamic-title {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 0;
+    z-index: -1; /* sits behind all page content on every tab */
     overflow: hidden;
 }
 
@@ -328,6 +328,82 @@ h1.dynamic-title {
 .particle:nth-child(45) { left: 25%; animation-duration: 30s; animation-delay: 0s;   background: var(--neon-cyan); }
 .particle:nth-child(46) { left: 55%; animation-duration: 38s; animation-delay: 0s;   background: var(--neon-purple); width: 4px; height: 4px; }
 .particle:nth-child(47) { left: 75%; animation-duration: 32s; animation-delay: 0s; background: var(--neon-blue); width: 2px; height: 2px; }
+
+/* ── Stagger particles so they don't all spawn in one wave ── */
+.cyber-particles .particle:nth-child(3n+1) { animation-delay: -4s; }
+.cyber-particles .particle:nth-child(3n+2) { animation-delay: -9s; }
+.cyber-particles .particle:nth-child(3n)   { animation-delay: -14s; }
+.cyber-particles .particle:nth-child(4n)   { animation-delay: -19s; }
+.cyber-particles .particle:nth-child(5n)   { animation-delay: -24s; }
+
+/* ── Constellation canvas (drawn by bg-effects.js) ── */
+.cyber-constellation {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+/* ── Let the background effect show through the whole page (sidebar, topbar, footer) ── */
+#sidebar {
+    background: color-mix(in srgb, var(--sidebar-bg) 25%, transparent) !important;
+}
+
+#topbar-wrapper {
+    background-color: color-mix(in srgb, var(--topbar-bg) 65%, transparent) !important;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+footer {
+    background-color: transparent !important;
+}
+
+/* ── Aurora glow layer ── */
+.cyber-particles::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(35% 30% at 20% 25%, rgba(0, 255, 200, 0.15), transparent 70%),
+        radial-gradient(30% 35% at 80% 20%, rgba(123, 47, 247, 0.18), transparent 70%),
+        radial-gradient(35% 30% at 70% 80%, rgba(255, 45, 149, 0.13), transparent 70%),
+        radial-gradient(30% 30% at 25% 85%, rgba(0, 180, 255, 0.15), transparent 70%);
+    filter: blur(30px);
+    animation: cyberAurora 26s ease-in-out infinite alternate;
+}
+
+/* ── Faint cyber grid with vignette ── */
+.cyber-particles::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 255, 200, 0.075) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 200, 0.075) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+    animation: cyberGridDrift 30s linear infinite;
+}
+
+@keyframes cyberAurora {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(4%, -3%) rotate(8deg) scale(1.08); }
+    100% { transform: translate(-3%, 4%) rotate(-6deg) scale(1.02); }
+}
+
+@keyframes cyberGridDrift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 0 48px, 48px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cyber-particles::before,
+    .cyber-particles::after,
+    .cyber-particles .particle {
+        animation: none;
+    }
+}
 
 
 

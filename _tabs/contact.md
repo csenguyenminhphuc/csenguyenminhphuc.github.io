@@ -9,7 +9,8 @@ order: 10
 
 - <span data-i18n="contactPage.githubLabel">GitHub:</span> https://github.com/csenguyenminhphuc
 - <span data-i18n="contactPage.websiteLabel">Website:</span> https://csenguyenminhphuc.github.io
+- <span data-i18n="contactPage.linkedinLabel">LinkedIn:</span> https://www.linkedin.com/in/csenguyenminhphuc
 
 ## <span data-i18n="contactPage.collabTitle">Collaboration</span>
 
-<span data-i18n="contactPage.collabBody">I am open to DevSecOps, Infrastructure, and Security consulting opportunities.</span>
+<span data-i18n="contactPage.collabBody">I am open to Penetration Testing, DevSecOps, Infrastructure, and Security consulting opportunities.</span>

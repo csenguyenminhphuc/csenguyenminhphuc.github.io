@@ -344,10 +344,12 @@ h1.dynamic-title {
 }
 
 /* ── Let the background effect show through the whole page (sidebar, topbar, footer) ── */
-#main-wrapper {
+#main-wrapper,
+#main-wrapper > .container {
     position: relative;
     z-index: 1;
     background: transparent !important;
+    background-color: transparent !important;
 }
 
 #sidebar {
@@ -355,15 +357,26 @@ h1.dynamic-title {
     background: color-mix(in srgb, var(--sidebar-bg) 25%, transparent) !important;
 }
 
-#topbar-wrapper {
+#topbar-wrapper,
+#topbar {
+    background: transparent !important;
     background-color: transparent !important;
 }
 
 #topbar search,
+#search,
 #lang-toggle-topbar {
-    background: color-mix(in srgb, var(--main-bg) 35%, transparent) !important;
+    background: transparent !important;
+    background-color: transparent !important;
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
+}
+
+#search-input,
+#search-input:focus {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 #toc-wrapper::before,

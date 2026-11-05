@@ -2,6 +2,16 @@
 // Applied on every page: reuses the homepage `.cyber-particles` container when present,
 // otherwise creates one and populates it with floating neon particles.
 (() => {
+  const transparentStyle = document.createElement('style');
+  transparentStyle.textContent = `
+    #main-wrapper, #main-wrapper > .container, #topbar-wrapper, #topbar,
+    #topbar search, #search, #search-input, #search-input:focus, #lang-toggle-topbar {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+  `;
+  document.head.appendChild(transparentStyle);
+
   let host = document.querySelector('.cyber-particles');
   if (!host) {
     host = document.createElement('div');

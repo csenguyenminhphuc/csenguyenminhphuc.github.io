@@ -175,7 +175,7 @@ h1.dynamic-title {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1; /* sits behind all page content on every tab */
+    z-index: 0; /* sits above body background, behind page content */
     overflow: hidden;
 }
 
@@ -344,7 +344,14 @@ h1.dynamic-title {
 }
 
 /* ── Let the background effect show through the whole page (sidebar, topbar, footer) ── */
+#main-wrapper {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+}
+
 #sidebar {
+    z-index: 2;
     background: color-mix(in srgb, var(--sidebar-bg) 25%, transparent) !important;
 }
 

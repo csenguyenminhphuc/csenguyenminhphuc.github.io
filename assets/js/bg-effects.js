@@ -1,12 +1,34 @@
 // Constellation background: drifting neon nodes linked by lines, reacting to the cursor.
 // Applied on every page: reuses the homepage `.cyber-particles` container when present,
-// otherwise creates one. The container is moved to <body> so it always sits behind content.
+// otherwise creates one and populates it with floating neon particles.
 (() => {
   let host = document.querySelector('.cyber-particles');
   if (!host) {
     host = document.createElement('div');
     host.className = 'cyber-particles';
     host.setAttribute('aria-hidden', 'true');
+  }
+  if (!host.querySelector('.particle')) {
+    const classes = [
+      ...Array(10).fill('particle'),
+      ...Array(4).fill('particle p-purple'),
+      ...Array(3).fill('particle p-pink'),
+      ...Array(3).fill('particle p-blue'),
+      ...Array(4).fill('particle p-diamond'),
+      ...Array(3).fill('particle p-ring'),
+      ...Array(4).fill('particle p-dash'),
+      ...Array(3).fill('particle p-star'),
+      ...Array(4).fill('particle p-flicker'),
+      ...Array(3).fill('particle p-blob'),
+      ...Array(3).fill('particle p-zigzag')
+    ];
+    const frag = document.createDocumentFragment();
+    classes.forEach((cls) => {
+      const span = document.createElement('span');
+      span.className = cls;
+      frag.appendChild(span);
+    });
+    host.appendChild(frag);
   }
   document.body.prepend(host);
 
@@ -22,7 +44,7 @@
 
   const canvas = document.createElement('canvas');
   canvas.className = 'cyber-constellation';
-  host.prepend(canvas);
+  host.appendChild(canvas);
   const ctx = canvas.getContext('2d');
 
   let width = 0;
